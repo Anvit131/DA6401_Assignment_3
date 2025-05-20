@@ -262,6 +262,10 @@ This module visualizes attention weights in a trained Seq2Seq model with attenti
 Ensure all dependencies and paths are set correctly. Then run the Python script in a Kaggle or Jupyter Notebook environment.
 
 ---
+
+
 Self Declaration
 I, Anvit Kumar, swear on my honour that I have written the code and the report by myself and have not copied it from the internet or other students.
+
+Wandb Report Link : https://wandb.ai/ma24m004-iit-madras/DL_ASSIGNMENT_3_RNN/reports/DA6401-ASSIGNMENT-3--VmlldzoxMjY4NzMzNw?accessToken=6rlnv27d41cw6rwds83if3kaw2r885fcivg8nbwngb9enyjpf2s2k3d2fdk19gf5
 
