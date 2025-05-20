@@ -20,7 +20,7 @@ Table of Contents
 8. Results
 9. Troubleshooting
     
-
+---
 
 **Project Overview**
 
@@ -34,11 +34,39 @@ This project builds a deep learning model to transliterate English words (e.g., 
 6. Evaluation metrics: word-level and character-level accuracies.
 
 Prerequisites
- Set up Weights & Biases:
-   Install wandb: pip install wandb
-   Log in: wandb login 
+Ensure the following are installed:
+- Python 3.8+
+- pip (Python package manager)
+- Weights & Biases (wandb) account (optional, for logging)
+- Devanagari-compatible font (e.g., NotoSansDevanagari)
 
-Model Architecture
+---
+**Installation**
+
+```text
+git clone https://github.com/yourusername/english-to-hindi-transliteration.git
+cd english-to-hindi-transliteration
+!fc-list | grep Devanagari
+!wget https://noto-website-2.storage.googleapis.com/pkgs/NotoSansDevanagari-hinted.zip
+!unzip NotoSansDevanagari-hinted.zip
+```
+Set up Weights & Biases :
+```text
+pip install wandb
+wandb login
+```
+---
+**Dataset**
+This project uses the Dakshina Indic Transliteration Dataset. To set it up:
+- Download the dataset from kaggle
+- Extract and place the Hindi lexicon files in the data/ folder:
+```text
+data/DakshinaDataset/hi/lexicon/
+├── hi.translit.sampled.train.tsv
+├── hi.translit.sampled.dev.tsv
+└── hi.translit.sampled.test.tsv
+```
+**Model Architecture**
 
 The Seq2Seq model consists of:
 
@@ -54,15 +82,24 @@ Decoder:
 Beam Search:
 Used during inference to explore multiple sequence hypotheses, improving prediction quality.
 
-Hyperparameters (configurable in train.py or inference.py):
-1. Embedding dimension
-2. Hidden dimension
-3. Number of layers
-4. Cell type:RNN, LSTM (or GRU)
-5. Dropout
-6. Beam size
+**Hyperparameters **
+1. 'emb_dim': Embedding dimension
+2. 'hidden_dim': Hidden dimension
+3. 'num_layers': Number of layers
+4. 'cell_type': RNN, LSTM (or GRU)
+5. 'dropout': Dropout
+6. 'beam_size': Beam size
 
-Inference
+
+**Training**
+```text
+python train_model.ipynb --cell_type LSTM --hidden_dim 256 --num_layers 3 --dropout 0.3 --epochs 10 --batch_size 64
+```
+The best model is saved as models/best_model.pt.
+
+---
+
+**Inference**
 
 To evaluate the model on the test set:
 
@@ -75,6 +112,13 @@ Inference Details:
 2. Computes word-level and character-level accuracies.
 3. Logs results to wandb and saves predictions to outputs/predictions_vanilla.csv.
 4. Displays sample predictions in the console.
+5. Output: Predictions are saved in outputs/predictions.csv and logged to wandb.
+
+        example:
+   
+           Input: "hello"
+   
+           Output: "हैलो"
 
 ##  Project Structure(in Sort)
 
@@ -82,35 +126,21 @@ My model structure **without attention**
 
 ```text
 ├── requirements.txt
-
 ├── data/
-
    └── DakshinaDataset
-
    └── create_vocab
-
    └──   pad_collate
-
-├── Vanila_model
-
-    ├── Encoder
-
+---
+├── Vanila_model/
+    ├── Encoder/
     |   └── forward
-
-    ├── Decoder
-
+    ├── Decoder/
         └── forward
-
-    ├── Seq2Seq
-
+    ├── Seq2Seq/
         └── forward
-
-        └── predict
-
+        └── predict/
            └──beam_search
-
     ├──train_model
-
     ├──test model
 
 ```
@@ -118,19 +148,28 @@ My model structure **with attention**
 
 ```text
 
-├── model_with_attention
-    ├── Attn_Encoder           (Remain same as Vanilla )
+├── model_with_attention/
+    ├── Attn_Encoder/           (Remain same as Vanilla )
     |   └── forward
-    ├── Attn_Decoder
+    ├── Attn_Decoder/
         └── forward
-    ├── Attn_Seq2Seq
+    ├── Attn_Seq2Seq/
         └── forward
-        └── predict
+        └── predict/
             └──beam_search
     ├──Attn_train_model
     ├──test model with attention
 ```
+**Results**
 
+![Screenshot 2025-05-19 163840](https://github.com/user-attachments/assets/21a642dc-0e25-490f-83d1-df8850363278)
+
+
+**Troubleshooting**
+- Missing model file: Ensure best_model.pt is in models/.
+- Wandb login issues: Run wandb login and follow the prompts.
+- Dataset not found: Verify the dataset is correctly placed in data/.
+---
 ##  Features
 - Encoder-Decoder Seq2Seq architecture
 - Attention mechanism
@@ -164,11 +203,65 @@ pandas
 scikit-learn 
 wandb 
 matplotlib
-sentencepiece 
+sentencepiece
 ```
 ---
 
-##  Credits
+#  Attention connectivity vizualization for English-to-Hindi Transliteration
 
-Developed by [Anvit Kumar]  
-For [DA6410 / Deep Learning]  
+This module visualizes attention weights in a trained Seq2Seq model with attention for English-to-Hindi transliteration using the [Dakshina Dataset](https://github.com/google-research-datasets/dakshina). It generates animated GIFs showing how the model attends to different input characters during each step of output generation.
+
+---
+
+##  Features
+
+- Loads a trained attention-based Seq2Seq model
+- Uses beam search decoding
+- Visualizes attention as animated curved lines
+- Saves results as GIFs and renders in a W&B HTML panel
+- Supports Devanagari font rendering
+- Logs animations and predictions to [Weights & Biases (W&B)](https://wandb.ai)
+
+---
+
+## Code Overview
+
+### 1. Font Setup
+- Loads and registers Devanagari font for Hindi script rendering in matplotlib.
+
+### 2. Model & Data Initialization
+- Loads trained model (`Attn_Seq2Seq`) and Dakshina dataset for testing.
+- Converts input and output tokens to vocab indices.
+
+### 3. Attention Visualization
+- Generates curved-line animations for attention weights per output character.
+- Uses `matplotlib.animation.FuncAnimation` to save GIFs.
+- Shows how model focuses on source tokens during decoding.
+
+### 4. Logging
+- Saves predictions and attention animations
+- Logs GIFs and interactive HTML grid to W&B dashboard
+- Also saves `.tsv` prediction file and `.html` animation grid locally
+
+---
+
+##  Output
+
+- `/kaggle/working/attention_samples_*.gif` – GIFs of attention animations
+- `/kaggle/working/predictions_with_attn.tsv` – model predictions
+- `/kaggle/working/attention_grids1.html` – embedded attention grid (HTML)
+- Logged to W&B:
+  - Attention GIFs (`wandb.Video`)
+  - Attention HTML Grid (`wandb.Html`)
+  - Model predictions as CSV (`wandb.Artifact` if needed)
+
+---
+
+##  How to Run
+
+Ensure all dependencies and paths are set correctly. Then run the Python script in a Kaggle or Jupyter Notebook environment.
+
+---
+Self Declaration
+I, Anvit Kumar, swear on my honour that I have written the code and the report by myself and have not copied it from the internet or other students.
+
