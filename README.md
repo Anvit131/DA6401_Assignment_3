@@ -238,6 +238,9 @@ This module visualizes attention weights in a trained Seq2Seq model with attenti
 - Uses `matplotlib.animation.FuncAnimation` to save GIFs.
 - Shows how model focuses on source tokens during decoding.
 
+**Example**
+  ![attention_samples_8 (1)](https://github.com/user-attachments/assets/30adf1c6-b9cc-4eec-a867-98541a27a5ad)
+
 ### 4. Logging
 - Saves predictions and attention animations
 - Logs GIFs and interactive HTML grid to W&B dashboard
