@@ -127,21 +127,21 @@ My model structure **without attention**
 ```text
 ├── requirements.txt
 ├── data/
-   └── DakshinaDataset
-   └── create_vocab
-   └──   pad_collate
+   └── DakshinaDataset.py
+   └── create_vocab.py
+   └──   pad_collate.py
 ---
 ├── Vanila_model/
-    ├── Encoder/
-    |   └── forward
-    ├── Decoder/
-        └── forward
-    ├── Seq2Seq/
-        └── forward
-        └── predict/
-           └──beam_search
-    ├──train_model
-    ├──test model
+    ├── Encoder.py/
+    |   └── forward.py
+    ├── Decoder.py/
+        └── forward.py
+    ├── Seq2Seq.py/
+        └── forward.py
+        └── predict.py/
+           └──beam_search.py
+    ├──train_model.py
+    ├──test_model.py
 
 ```
 My model structure **with attention**
@@ -149,16 +149,16 @@ My model structure **with attention**
 ```text
 
 ├── model_with_attention/
-    ├── Attn_Encoder/           (Remain same as Vanilla )
-    |   └── forward
-    ├── Attn_Decoder/
-        └── forward
-    ├── Attn_Seq2Seq/
-        └── forward
-        └── predict/
-            └──beam_search
-    ├──Attn_train_model
-    ├──test model with attention
+    ├── Attn_Encoder.py/           (Remain same as Vanilla )
+    |   └── forward.py
+    ├── Attn_Decoder.py/
+        └── forward.py
+    ├── Attn_Seq2Seq.py/
+        └── forward.py
+        └── predict.py/
+            └──beam_search.py
+    ├──Attn_train_model.py
+    ├──test model with attention.py
 ```
 **Results**
 
