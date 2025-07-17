@@ -1,4 +1,4 @@
-# DA6401_Assignment_3
+# Building_Transliteration_System
 # English-to-Hindi Transliteration with Seq2Seq with and without Attention (PyTorch)
 
 This repository implements a Sequence-to-Sequence (Seq2Seq) model with and without an Attention both mechanisms for transliteration tasks using PyTorch. It supports Beam Search decoding and experiment tracking with Weights & Biases (wandb).
